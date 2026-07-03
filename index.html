@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizzaria Fornello</title>
+<style>
+  :root{
+    --bg:#171412;
+    --bg-alt:#1f1a17;
+    --card:#252019;
+    --red:#e6432d;
+    --red-dark:#c8331f;
+    --gold:#e8b04b;
+    --text:#f4ece3;
+    --muted:#b8aa9c;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.5;
+  }
+  header{
+    padding:20px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    background:rgba(23,20,18,0.9);
+    backdrop-filter:blur(8px);
+    z-index:10;
+    border-bottom:1px solid #2e2822;
+  }
+  .logo{
+    font-size:1.4rem;
+    font-weight:800;
+    letter-spacing:0.5px;
+  }
+  .logo span{color:var(--gold);}
+  nav a{
+    color:var(--muted);
+    text-decoration:none;
+    margin-left:24px;
+    font-size:0.95rem;
+    transition:color .2s;
+  }
+  nav a:hover{color:var(--gold);}
+
+  .hero{
+    text-align:center;
+    padding:80px 6% 60px;
+    background:radial-gradient(circle at 50% -10%, #2b2119 0%, var(--bg) 60%);
+  }
+  .hero h1{
+    font-size:clamp(2rem, 5vw, 3.4rem);
+    font-weight:800;
+    margin-bottom:16px;
+  }
+  .hero h1 span{color:var(--red);}
+  .hero p{
+    color:var(--muted);
+    max-width:520px;
+    margin:0 auto 32px;
+    font-size:1.05rem;
+  }
+  .btn{
+    display:inline-block;
+    border:none;
+    cursor:pointer;
+    font-weight:700;
+    font-size:1rem;
+    padding:14px 30px;
+    border-radius:999px;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn:active{transform:scale(0.96);}
+  .btn-primary{
+    background:linear-gradient(135deg, var(--red), var(--red-dark));
+    color:#fff;
+    box-shadow:0 8px 24px rgba(230,67,45,0.35);
+  }
+  .btn-primary:hover{box-shadow:0 10px 30px rgba(230,67,45,0.5);}
+  .btn-gold{
+    background:var(--gold);
+    color:#2a1e0f;
+  }
+
+  section{
+    padding:60px 6%;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .section-title{
+    font-size:1.8rem;
+    font-weight:800;
+    margin-bottom:8px;
+  }
+  .section-sub{
+    color:var(--muted);
+    margin-bottom:36px;
+  }
+
+  /* Sorteio */
+  #sorteio{
+    background:var(--bg-alt);
+    border-radius:24px;
+    text-align:center;
+  }
+  .roleta{
+    width:min(280px, 70vw);
+    aspect-ratio:1;
+    margin:24px auto;
+    border-radius:50%;
+    background:conic-gradient(from 0deg, var(--red) 0 25%, var(--gold) 0 50%, var(--red) 0 75%, var(--gold) 0 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:3rem;
+    box-shadow:0 0 0 8px var(--card), 0 20px 40px rgba(0,0,0,0.4);
+    transition:transform 3s cubic-bezier(.17,.67,.21,1);
+  }
+  .resultado{
+    background:var(--card);
+    border:1px solid #362e26;
+    border-radius:var(--radius);
+    padding:24px;
+    max-width:420px;
+    margin:20px auto 0;
+    display:none;
+  }
+  .resultado.show{display:block;animation:pop .4s ease;}
+  @keyframes pop{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+  .resultado h3{color:var(--gold);font-size:1.4rem;margin-bottom:6px;}
+  .resultado p{color:var(--muted);font-size:0.95rem;}
+  .resultado .preco{color:var(--red);font-weight:800;font-size:1.2rem;margin-top:10px;}
+
+  /* Cardapio */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:20px;
+  }
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:20px;
+    border:1px solid #302922;
+    transition:transform .2s, border-color .2s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:var(--red);}
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:8px;
+  }
+  .card h3{font-size:1.1rem;}
+  .card .preco{color:var(--gold);font-weight:700;white-space:nowrap;margin-left:12px;}
+  .card p{color:var(--muted);font-size:0.9rem;}
+  .tag{
+    display:inline-block;
+    font-size:0.7rem;
+    background:rgba(230,67,45,0.15);
+    color:var(--red);
+    padding:2px 10px;
+    border-radius:999px;
+    margin-bottom:10px;
+    font-weight:700;
+    letter-spacing:0.5px;
+  }
+
+  footer{
+    text-align:center;
+    padding:30px 6%;
+    color:var(--muted);
+    font-size:0.85rem;
+    border-top:1px solid #2e2822;
+  }
+
+  @media(max-width:600px){
+    nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Forn<span>ello</span> 🍕</div>
+  <nav>
+    <a href="#cardapio">Cardápio</a>
+    <a href="#sorteio">Sortear Pizza</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Pizza artesanal, <span>no seu talento.</span></h1>
+  <p>Massa de fermentação lenta, ingredientes frescos e um toque de sorte. Não sabe qual pedir? A gente sorteia pra você.</p>
+  <a href="#sorteio" class="btn btn-primary">Sortear minha pizza</a>
+</section>
+
+<section id="sorteio">
+  <h2 class="section-title">Não sabe o que pedir?</h2>
+  <p class="section-sub">Clique no botão e deixe o destino escolher sua pizza de hoje.</p>
+
+  <div class="roleta" id="roleta">🍕</div>
+
+  <button class="btn btn-gold" id="btnSortear">Sortear Pizza</button>
+
+  <div class="resultado" id="resultado">
+    <h3 id="resNome"></h3>
+    <p id="resDesc"></p>
+    <div class="preco" id="resPreco"></div>
+  </div>
+</section>
+
+<section id="cardapio">
+  <h2 class="section-title">Cardápio</h2>
+  <p class="section-sub">Todas feitas na hora, no forno a lenha.</p>
+  <div class="grid" id="grid"></div>
+</section>
+
+<footer>
+  © 2026 Pizzaria Fornello — Feito com massa, fogo e código.
+</footer>
+
+<script>
+  const pizzas = [
+    { nome: "Margherita", desc: "Molho de tomate, mussarela de búfala, manjericão fresco.", preco: 42, tag: "Clássica" },
+    { nome: "Pepperoni", desc: "Molho de tomate, mussarela e generosas fatias de pepperoni.", preco: 48, tag: "Clássica" },
+    { nome: "Quatro Queijos", desc: "Mussarela, gorgonzola, parmesão e provolone.", preco: 52, tag: "Especial" },
+    { nome: "Calabresa", desc: "Calabresa fatiada, cebola roxa e azeitonas.", preco: 45, tag: "Clássica" },
+    { nome: "Portuguesa", desc: "Presunto, ovos, cebola, azeitona e ervilha.", preco: 49, tag: "Clássica" },
+    { nome: "Frango com Catupiry", desc: "Frango desfiado ao molho, catupiry cremoso.", preco: 50, tag: "Popular" },
+    { nome: "Vegetariana", desc: "Abobrinha, pimentão, tomate seco e rúcula.", preco: 47, tag: "Veg" },
+    { nome: "Trufada", desc: "Mussarela, cogumelos salteados e azeite trufado.", preco: 62, tag: "Premium" }
+  ];
+
+  const grid = document.getElementById('grid');
+  grid.innerHTML = pizzas.map(p => `
+    <div class="card">
+      <span class="tag">${p.tag}</span>
+      <div class="card-top">
+        <h3>${p.nome}</h3>
+        <span class="preco">R$ ${p.preco.toFixed(2)}</span>
+      </div>
+      <p>${p.desc}</p>
+    </div>
+  `).join('');
+
+  const roleta = document.getElementById('roleta');
+  const resultado = document.getElementById('resultado');
+  const resNome = document.getElementById('resNome');
+  const resDesc = document.getElementById('resDesc');
+  const resPreco = document.getElementById('resPreco');
+  let girando = false;
+  let rotacaoAtual = 0;
+
+  document.getElementById('btnSortear').addEventListener('click', () => {
+    if (girando) return;
+    girando = true;
+    resultado.classList.remove('show');
+
+    const escolhida = pizzas[Math.floor(Math.random() * pizzas.length)];
+    rotacaoAtual += 1440 + Math.floor(Math.random() * 360);
+    roleta.style.transform = `rotate(${rotacaoAtual}deg)`;
+
+    setTimeout(() => {
+      resNome.textContent = "🍕 " + escolhida.nome;
+      resDesc.textContent = escolhida.desc;
+      resPreco.textContent = "R$ " + escolhida.preco.toFixed(2);
+      resultado.classList.add('show');
+      girando = false;
+    }, 3000);
+  });
+</script>
+
+</body>
+</html>
