@@ -5297,7 +5297,7 @@
 /* V6 • FINALIZAÇÃO DO PEDIDO */
 
 .dadas-checkout-bar {
-  margin: 0; padding: 0; display: flex; align-items: center; gap: 14px;
+  margin: 0; padding: 0; display: flex; align-items: center; gap: 10px;
   opacity: 0.76;
   transition: opacity 0.25s ease;
 }
@@ -5306,12 +5306,12 @@
 
 .dadas-checkout-bar__summary { display: none; }
 .dadas-checkout-bar__total > span { color: rgba(255, 255, 255, 0.40); font-size: 6px; line-height: 1; font-weight: 900; letter-spacing: 0.11em; text-transform: uppercase; }
-.dadas-checkout-bar__actions { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
-.dadas-checkout-bar__total { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
-.dadas-checkout-bar__total > strong { color: var(--dadas-cart-yellow); font-family: "Montserrat", Arial, sans-serif; font-size: 13px; line-height: 1; font-weight: 900; }
+.dadas-checkout-bar__actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.dadas-checkout-bar__total { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.dadas-checkout-bar__total > strong { color: var(--dadas-cart-yellow); font-family: "Montserrat", Arial, sans-serif; font-size: 12px; line-height: 1; font-weight: 900; }
 
 .dadas-open-checkout {
-  min-height: 43px; padding: 0 8px 0 17px; display: inline-flex; align-items: center; justify-content: center; gap: 11px;
+  min-height: 36px; padding: 0 6px 0 14px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   border: 1px solid rgba(255, 255, 255, 0.23); border-radius: 999px; color: #24180E;
   background: linear-gradient(135deg, #FFF3D7, #FDE7B9 52%, #EAC879);
   box-shadow: 0 11px 23px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.68);
@@ -5319,7 +5319,7 @@
   transition: transform 0.25s ease, filter 0.25s ease, opacity 0.25s ease;
 }
 
-.dadas-open-checkout svg { width: 30px; height: 30px; padding: 8px; border-radius: 50%; color: var(--dadas-cart-cream); background: #2E2117; }
+.dadas-open-checkout svg { width: 22px; height: 22px; padding: 6px; border-radius: 50%; color: var(--dadas-cart-cream); background: #2E2117; }
 .dadas-open-checkout:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.025); }
 .dadas-open-checkout:disabled { opacity: 0.34; cursor: not-allowed; box-shadow: none; }
 
@@ -5418,10 +5418,12 @@ body.dadas-checkout-lock { overflow: hidden !important; }
 .dadas-send-whatsapp:hover { transform: translateY(-2px); filter: brightness(1.04); box-shadow: 0 18px 33px rgba(21, 148, 71, 0.31), inset 0 1px 0 rgba(255, 255, 255, 0.24); }
 
 @media (max-width: 680px) {
-  .dadas-checkout-bar { gap: 7px; }
-  .dadas-checkout-bar__actions { gap: 6px; }
-  .dadas-open-checkout { min-height: 37px; padding-left: 11px; gap: 7px; font-size: 5.8px; }
-  .dadas-open-checkout svg { width: 26px; height: 26px; padding: 7px; }
+  .dadas-checkout-bar { gap: 6px; }
+  .dadas-checkout-bar__actions { gap: 5px; }
+  .dadas-checkout-bar__total { gap: 1px; }
+  .dadas-checkout-bar__total > strong { font-size: 11px; }
+  .dadas-open-checkout { min-height: 31px; padding: 0 5px 0 10px; gap: 5px; font-size: 5.8px; }
+  .dadas-open-checkout svg { width: 19px; height: 19px; padding: 5px; }
   .dadas-checkout-panel { top: auto; right: 6px; bottom: 6px; left: 6px; width: auto; max-height: calc(100svh - 12px); border-radius: 24px; transform: translateY(calc(100% + 24px)); }
   .dadas-whatsapp-checkout.is-open .dadas-checkout-panel { transform: translateY(0); }
   .dadas-checkout-panel__header { min-height: 76px; padding: 16px; }
