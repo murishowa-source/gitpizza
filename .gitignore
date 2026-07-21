@@ -1,2 +1,6 @@
 .DS_Store
 .claude/settings.local.json
+
+# Pasta de referência local com originais/PSD/ZIP (126MB) — não é usada pelo site,
+# fica fora do repositório para não inchar o clone.
+Dada's Pizza Claude/
