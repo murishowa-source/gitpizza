@@ -284,23 +284,24 @@
     font-family: "Manrope", Arial, sans-serif;
     opacity: 1;
     visibility: visible;
-    transform: none !important;
+    transform: translateY(0);
     transition:
       background 0.35s ease,
       border-color 0.35s ease,
       box-shadow 0.35s ease,
-      opacity 0.3s ease,
-      visibility 0s linear 0s;
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0.4s;
   }
 
   /*
-   * Recua quando o carrinho do cardápio está fixo no topo, pra não
-   * empilhar duas barras fixas ao mesmo tempo.
+   * O carrinho do cardápio "encosta" no header e o empurra pra cima
+   * de forma natural — o header nunca some do nada, ele sobe e sai
+   * de cena exatamente quando o carrinho chega nele.
    */
   .dadas-v2-header.is-cart-docked {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    transition-delay: 0s, 0s, 0s, 0s, 0.3s;
+    transform: translateY(-100%);
+    visibility: hidden;
+    transition-delay: 0s, 0s, 0s, 0s, 0.4s;
   }
 
   .dadas-v2-header.is-scrolled {
@@ -3406,14 +3407,13 @@
       </div>
     </div>
 
-    <div
-      id="dadas-cart-placeholder"
-      class="dadas-cart-placeholder"
-      aria-hidden="true"
-    ></div>
+    <div id="dadas-cart-message" class="dadas-cart-message" role="status" aria-live="polite"></div>
+  </div>
 
-    <div id="dadas-cart-dock" class="dadas-cart-dock">
-      <div class="dadas-cart-dock__shell">
+  <div id="dadas-dock-sentinel" class="dadas-dock-sentinel" aria-hidden="true"></div>
+
+  <div id="dadas-cart-dock" class="dadas-cart-dock">
+    <div class="dadas-cart-dock__shell">
 
         <div class="dadas-selected-flavors">
           <div class="dadas-selected-flavors__heading">
@@ -3543,9 +3543,6 @@
 
       </div>
     </div>
-
-    <div id="dadas-cart-message" class="dadas-cart-message" role="status" aria-live="polite"></div>
-  </div>
 
   <div id="dadas-whatsapp-checkout" class="dadas-whatsapp-checkout" aria-hidden="true">
     <button
@@ -4709,18 +4706,19 @@
 .dadas-cardapio-builder,
 .dadas-cardapio-builder *,
 .dadas-pizza-cart,
-.dadas-pizza-cart * {
+.dadas-pizza-cart *,
+.dadas-cart-dock,
+.dadas-cart-dock * {
   box-sizing: border-box;
 }
 
 .dadas-cardapio-builder {
   position: relative;
   width: 100%;
-  overflow: visible !important;
   font-family: "Manrope", Arial, sans-serif;
 }
 
-.dadas-cart-placeholder { width: 100%; height: 0; pointer-events: none; }
+.dadas-dock-sentinel { width: 100%; height: 1px; pointer-events: none; }
 .dadas-cardapio-end { width: 100%; height: 1px; pointer-events: none; }
 .dadas-menu-content { position: relative; width: 100%; }
 
@@ -4732,7 +4730,7 @@
 
 .dadas-pizza-cart__shell {
   position: relative;
-  width: min(760px, 100%);
+  width: min(1080px, 100%);
   margin: 0 auto;
   padding: 10px 18px;
   border-radius: 22px;
@@ -4743,34 +4741,20 @@
    Único elemento que muda de posição (nunca de forma).
 ========================================================= */
 
+/*
+ * position: sticky nativo — o navegador cuida de tudo (gruda no topo,
+ * acompanha o scroll do cardápio, solta sozinho no fim da section),
+ * sem nenhum JS de posicionamento e sem salto nenhum.
+ */
 .dadas-cart-dock {
-  position: relative;
+  position: sticky;
+  top: var(--dadas-cart-fixed-top, 0px);
   z-index: 99990;
   width: 100%;
   padding: 8px 18px;
 }
 
-.dadas-cart-dock.is-fixed {
-  position: fixed !important;
-  top: var(--dadas-cart-fixed-top) !important;
-  right: 0 !important;
-  left: 0 !important;
-  z-index: 100001 !important;
-  width: 100% !important;
-}
-
-.dadas-cart-dock.is-ended {
-  position: absolute !important;
-  top: auto !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  z-index: 99990 !important;
-  width: 100% !important;
-}
-
-.dadas-cart-dock.is-fixed .dadas-cart-dock__shell,
-.dadas-cart-dock.is-ended .dadas-cart-dock__shell {
+.dadas-cart-dock.is-stuck .dadas-cart-dock__shell {
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
@@ -5164,7 +5148,7 @@
 .dadas-config-panel__intro strong { color: #FFFFFF; font-family: "Montserrat", Arial, sans-serif; font-size: clamp(20px, 2.6vw, 30px); line-height: 1.05; font-weight: 900; letter-spacing: -0.045em; }
 .dadas-config-panel__intro small { max-width: 360px; color: rgba(255, 255, 255, 0.52); font-size: 9px; line-height: 1.5; font-weight: 700; text-align: right; }
 
-.dadas-config-panel__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
+.dadas-config-panel__grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 15px; }
 .dadas-choice-group { min-width: 0; margin: 0; padding: 13px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 15px; background: rgba(0, 0, 0, 0.13); }
 .dadas-choice-group legend { display: flex; align-items: center; gap: 7px; margin: 0 0 10px; padding: 0 2px; color: rgba(255, 255, 255, 0.62); font-size: 8px; line-height: 1; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
 .dadas-choice-group legend span { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 7px; color: var(--dadas-cart-dark); background: var(--dadas-cart-yellow); font-size: 7px; letter-spacing: 0; }
@@ -5423,6 +5407,20 @@ body.dadas-checkout-lock { overflow: hidden !important; }
   .dadas-checkout-panel__footer > div strong { font-size: 15px; }
   .dadas-send-whatsapp { min-height: 45px; padding: 0 14px; gap: 7px; font-size: 6.7px; }
   .dadas-send-whatsapp svg { width: 17px; height: 17px; }
+
+  .dadas-config-panel__grid { gap: 10px; padding: 12px; }
+  .dadas-choice-group { padding: 10px; }
+  .dadas-size-selector, .dadas-flavor-count-selector { gap: 6px; }
+  .dadas-size-option, .dadas-flavor-count-option { gap: 5px; min-height: 64px; padding: 7px; }
+  .dadas-size-option__radio { width: 13px; height: 13px; }
+  .dadas-flavor-count-option__number { width: 22px; height: 22px; font-size: 11px; border-radius: 8px; }
+  .dadas-size-option__copy, .dadas-flavor-count-option__copy { gap: 3px; }
+  .dadas-size-option__copy strong, .dadas-flavor-count-option__copy strong {
+    font-size: 9.5px; line-height: 1.15; white-space: normal; text-overflow: clip;
+  }
+  .dadas-size-option__copy small, .dadas-flavor-count-option__copy small {
+    font-size: 6.3px; line-height: 1.2; white-space: normal; text-overflow: clip;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -5653,11 +5651,10 @@ body.dadas-checkout-lock { overflow: hidden !important; }
     var section = document.getElementById("dadas-cardapio-builder");
     var cart = document.getElementById("dadas-pizza-cart");
     var dock = document.getElementById("dadas-cart-dock");
-    var placeholder = document.getElementById("dadas-cart-placeholder");
+    var dockSentinel = document.getElementById("dadas-dock-sentinel");
     var menuContent = document.getElementById("dadas-menu-content");
-    var endMarker = document.getElementById("dadas-cardapio-end");
 
-    if (!section || !cart || !dock || !placeholder || !menuContent) {
+    if (!section || !cart || !dock || !menuContent) {
       return;
     }
 
@@ -5680,7 +5677,7 @@ body.dadas-checkout-lock { overflow: hidden !important; }
     var sizeInputs = Array.prototype.slice.call(cart.querySelectorAll('input[name="dadas-pizza-size"]'));
     var flavorCountInputs = Array.prototype.slice.call(cart.querySelectorAll('input[name="dadas-flavor-count"]'));
     var flavorCountOptions = Array.prototype.slice.call(cart.querySelectorAll("[data-flavor-count-option]"));
-    var flavorSlots = Array.prototype.slice.call(cart.querySelectorAll(".dadas-flavor-slot"));
+    var flavorSlots = Array.prototype.slice.call(dock.querySelectorAll(".dadas-flavor-slot"));
 
     var pizzaSegments = [
       document.getElementById("dadasPizzaSegment0"),
@@ -5770,11 +5767,7 @@ body.dadas-checkout-lock { overflow: hidden !important; }
 
     var fallbackFills = ["url(#dadasFallback0)", "url(#dadasFallback1)", "url(#dadasFallback2)"];
 
-    var originalParent = cart;
     var messageTimeout = null;
-    var dockFrame = null;
-    var lastDockMode = "";
-    var riseOffset = 0;
     var checkoutIsOpen = false;
     var checkoutLastFocus = null;
 
@@ -5926,9 +5919,9 @@ body.dadas-checkout-lock { overflow: hidden !important; }
 
     function getWhatsappNumber() { return String(whatsappConfig.number || "").replace(/\D/g, ""); }
 
-    function updateRiseOffset() {
-      riseOffset = 0;
-      cart.style.setProperty("--dadas-cart-rise-offset", "0px");
+    function updateLiveCartHeight() {
+      var dockHeight = Math.ceil(dock.getBoundingClientRect().height || dock.offsetHeight || 1);
+      section.style.setProperty("--dadas-live-cart-height", dockHeight + "px");
     }
 
     function showMessage(message) {
@@ -6001,7 +5994,6 @@ body.dadas-checkout-lock { overflow: hidden !important; }
       }
 
       render();
-      requestDockUpdate();
 
       window.setTimeout(function () {
         var firstAvailable = flavorCountOptions.find(function (option) { return !option.hidden; });
@@ -6034,7 +6026,6 @@ body.dadas-checkout-lock { overflow: hidden !important; }
       flavorCountInputs.forEach(function (input) { input.checked = Number(input.value) === count; });
 
       render();
-      requestDockUpdate();
 
       showMessage(selectedSize.label + " com " + count + (count === 1 ? " sabor liberado." : " sabores liberados."));
 
@@ -6116,7 +6107,6 @@ body.dadas-checkout-lock { overflow: hidden !important; }
 
       closeCheckout();
       render();
-      requestDockUpdate();
     }
 
     function renderPizzaGeometry() {
@@ -6364,9 +6354,8 @@ body.dadas-checkout-lock { overflow: hidden !important; }
       renderPriceAndStatus();
       renderCheckoutStatus();
       updateMenuCards();
-      updateRiseOffset();
+      updateLiveCartHeight();
       dispatchCartUpdate();
-      requestDockUpdate();
     }
 
     function getFulfillmentValue() {
@@ -6997,80 +6986,30 @@ body.dadas-checkout-lock { overflow: hidden !important; }
       }
     }
 
-    function moveCartToBody() {
-      if (dock.parentNode !== document.body) document.body.appendChild(dock);
-    }
-
-    function moveCartToSection() {
-      if (dock.parentNode !== originalParent) originalParent.insertBefore(dock, messageElement);
-    }
-
-    function getCartFixedTop() {
-      var rawValue = window.getComputedStyle(dock).getPropertyValue("--dadas-cart-fixed-top");
-      var parsedValue = parseFloat(rawValue);
-      return Number.isFinite(parsedValue) ? parsedValue : 0;
-    }
-
+    /*
+     * dock é position:sticky — o navegador cuida do posicionamento
+     * sozinho. Só precisamos saber QUANDO ele está grudado, pra
+     * recuar o header no momento exato (sem sumir do nada).
+     */
     function dispatchDockChange(mode) {
       window.dispatchEvent(new CustomEvent("dadas:cart-dock-change", { detail: { mode: mode } }));
     }
 
-    function applyDockMode(mode, cartHeight) {
-      if (lastDockMode === mode) {
-        placeholder.style.height = mode === "normal" ? "0px" : cartHeight + "px";
-        return;
-      }
+    function watchDockStuckState() {
+      if (!dockSentinel || !("IntersectionObserver" in window)) return;
 
-      lastDockMode = mode;
-      dock.classList.remove("is-fixed", "is-ended");
+      var observer = new IntersectionObserver(
+        function (entries) {
+          var entry = entries[entries.length - 1];
+          var isStuck = !entry.isIntersecting && entry.boundingClientRect.top < entry.rootBounds.top;
 
-      if (mode === "fixed") {
-        placeholder.style.height = cartHeight + "px";
-        moveCartToBody();
-        dock.classList.add("is-fixed");
-      } else if (mode === "ended") {
-        placeholder.style.height = cartHeight + "px";
-        moveCartToSection();
-        dock.classList.add("is-ended");
-      } else {
-        placeholder.style.height = "0px";
-        moveCartToSection();
-      }
+          dock.classList.toggle("is-stuck", isStuck);
+          dispatchDockChange(isStuck ? "fixed" : "normal");
+        },
+        { threshold: 0 }
+      );
 
-      dispatchDockChange(mode);
-    }
-
-    function updateDocking() {
-      dockFrame = null;
-
-      var sectionRect = section.getBoundingClientRect();
-      var placeholderRect = placeholder.getBoundingClientRect();
-      var fixedTop = getCartFixedTop();
-
-      var cartHeight = Math.ceil(dock.getBoundingClientRect().height || dock.offsetHeight || 1);
-      var boundaryBottom = endMarker ? endMarker.getBoundingClientRect().top : sectionRect.bottom;
-
-      section.style.setProperty("--dadas-live-cart-height", cartHeight + "px");
-
-      var dockingTrigger = fixedTop;
-      var boundaryLine = fixedTop + cartHeight;
-
-      if (placeholderRect.top > dockingTrigger) {
-        applyDockMode("normal", cartHeight);
-        return;
-      }
-
-      if (boundaryBottom <= boundaryLine) {
-        applyDockMode("ended", cartHeight);
-        return;
-      }
-
-      applyDockMode("fixed", cartHeight);
-    }
-
-    function requestDockUpdate() {
-      if (dockFrame !== null) return;
-      dockFrame = window.requestAnimationFrame(updateDocking);
+      observer.observe(dockSentinel);
     }
 
     sizeInputs.forEach(function (input) {
@@ -7158,7 +7097,7 @@ body.dadas-checkout-lock { overflow: hidden !important; }
     document.addEventListener("click", function (event) {
       var removeButton = event.target.closest("[data-remove-slot]");
 
-      if (removeButton && cart.contains(removeButton)) {
+      if (removeButton && dock.contains(removeButton)) {
         event.preventDefault();
         event.stopPropagation();
         removeFlavor(Number(removeButton.dataset.removeSlot));
@@ -7184,16 +7123,8 @@ body.dadas-checkout-lock { overflow: hidden !important; }
       });
     });
 
-    window.addEventListener("scroll", requestDockUpdate, { passive: true });
-
-    window.addEventListener("resize", function () {
-      updateRiseOffset();
-      requestDockUpdate();
-
-      window.setTimeout(function () { updateRiseOffset(); requestDockUpdate(); }, 120);
-    });
-
-    window.addEventListener("load", requestDockUpdate);
+    window.addEventListener("resize", updateLiveCartHeight);
+    window.addEventListener("load", updateLiveCartHeight);
 
     menuContent.addEventListener("click", function (event) {
       var shortcut = event.target.closest("[data-dadas-shortcut]");
@@ -7208,9 +7139,11 @@ body.dadas-checkout-lock { overflow: hidden !important; }
     });
 
     if ("ResizeObserver" in window) {
-      var cartResizeObserver = new ResizeObserver(function () { updateRiseOffset(); requestDockUpdate(); });
+      var cartResizeObserver = new ResizeObserver(updateLiveCartHeight);
       cartResizeObserver.observe(dock);
     }
+
+    watchDockStuckState();
 
     window.DadasPizzaCart = {
       setSize: setSize,
@@ -7225,14 +7158,13 @@ body.dadas-checkout-lock { overflow: hidden !important; }
       closeCheckout: closeCheckout,
       updateStoreStatus: updateStoreStatus,
       getStoreStatus: function () { return Object.assign({}, storeStatusState); },
-      refreshPosition: requestDockUpdate
+      refreshPosition: updateLiveCartHeight
     };
 
     updateStoreStatus();
     window.setInterval(updateStoreStatus, 60000);
 
     render();
-    requestDockUpdate();
   }
 
   if (document.readyState === "loading") {
