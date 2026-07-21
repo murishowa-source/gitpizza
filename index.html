@@ -3310,10 +3310,8 @@
           <div class="dadas-config-panel__intro">
             <div>
               <span>Primeiro passo</span>
-              <strong>Como você quer sua pizza?</strong>
+              <strong>Escolha o tamanho da sua Dada's</strong>
             </div>
-
-            <small>Escolha o tamanho e depois quantos sabores deseja combinar.</small>
           </div>
 
           <div class="dadas-config-panel__grid">
@@ -5155,7 +5153,8 @@
     padding: 0 0 0 10px;
     border-left: 1px solid rgba(255, 255, 255, 0.08);
   }
-  .dadas-pizza-svg { width: 108px; height: 108px; }
+  .dadas-pizza-preview { margin-top: 10px; }
+  .dadas-pizza-svg { width: 135px; height: 135px; }
   #dadas-checkout-bar { grid-area: actions; }
   .dadas-cart-message { right: 9px; bottom: 9px; max-width: 230px; padding: 7px 9px; font-size: 7px; }
 }
@@ -5172,11 +5171,10 @@
 <style>
 /* V6 • MONTAGEM POR ETAPAS */
 
-.dadas-config-panel__intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding: 19px 20px 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
-.dadas-config-panel__intro > div { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
+.dadas-config-panel__intro { display: flex; align-items: center; justify-content: center; text-align: center; gap: 24px; padding: 19px 20px 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+.dadas-config-panel__intro > div { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: 4px; }
 .dadas-config-panel__intro span { color: var(--dadas-cart-yellow); font-size: 8px; line-height: 1; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; }
 .dadas-config-panel__intro strong { color: #FFFFFF; font-family: "Montserrat", Arial, sans-serif; font-size: clamp(20px, 2.6vw, 30px); line-height: 1.05; font-weight: 900; letter-spacing: -0.045em; }
-.dadas-config-panel__intro small { max-width: 360px; color: rgba(255, 255, 255, 0.52); font-size: 9px; line-height: 1.5; font-weight: 700; text-align: right; }
 
 .dadas-config-panel__grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 15px; }
 .dadas-choice-group { min-width: 0; margin: 0; padding: 13px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 15px; background: rgba(0, 0, 0, 0.13); }
