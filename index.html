@@ -3426,11 +3426,10 @@
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <span>Tamanho</span>
+              <span id="dadas-back-to-config-label">Tamanho</span>
             </button>
 
             <span class="dadas-control-label">Sabores escolhidos</span>
-            <strong id="dadas-selected-price">R$ 0,00</strong>
           </div>
 
           <div id="dadas-selected-flavors-list" class="dadas-selected-flavors__list">
@@ -3451,6 +3450,11 @@
               <span class="dadas-flavor-slot__name">Terceiro sabor</span>
               <button class="dadas-flavor-slot__remove" type="button" data-remove-slot="2" aria-label="Remover terceiro sabor" hidden>×</button>
             </div>
+          </div>
+
+          <div class="dadas-selected-flavors__total">
+            <span>Valor</span>
+            <strong id="dadas-selected-price">R$ 0,00</strong>
           </div>
         </div>
 
@@ -4760,7 +4764,8 @@
 
 .dadas-cart-dock__shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 260px) auto auto;
+  justify-content: space-between;
   align-items: center;
   gap: 18px;
   width: min(1180px, 100%);
@@ -4924,11 +4929,27 @@
 
 .dadas-selected-flavors__heading { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
 .dadas-selected-flavors__heading .dadas-control-label { margin: 0; }
-.dadas-selected-flavors__heading > strong {
-  margin-left: auto;
+
+.dadas-selected-flavors__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.10);
+}
+.dadas-selected-flavors__total span {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.dadas-selected-flavors__total strong {
   color: var(--dadas-cart-yellow);
   font-family: "Montserrat", Arial, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 900;
   white-space: nowrap;
 }
@@ -4957,14 +4978,14 @@
 .dadas-back-to-config svg { width: 10px; height: 10px; }
 .dadas-back-to-config:hover { transform: translateY(-1px); border-color: rgba(232, 194, 70, 0.55); background: rgba(232, 194, 70, 0.14); }
 
-.dadas-selected-flavors__list { display: flex; flex-wrap: wrap; gap: 6px; }
+.dadas-selected-flavors__list { display: flex; flex-direction: column; gap: 6px; }
 
 .dadas-flavor-slot {
   display: flex;
   align-items: center;
   gap: 6px;
+  width: 100%;
   min-width: 0;
-  max-width: 220px;
   min-height: 30px;
   padding: 3px 5px 3px 3px;
   border: 1px dashed rgba(255, 255, 255, 0.15);
@@ -5021,15 +5042,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
-  padding-left: 18px;
+  padding: 0 18px;
   border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .dadas-pizza-cart__visual-heading { display: none; }
 
 .dadas-pizza-preview { display: flex; flex-direction: column; align-items: center; }
-.dadas-pizza-svg { display: block; width: 58px; height: 58px; overflow: visible; }
+.dadas-pizza-svg { display: block; width: 112px; height: 112px; overflow: visible; }
 
 .dadas-pizza-segment {
   opacity: 0;
@@ -5118,10 +5138,12 @@
   .dadas-selected-flavors { grid-area: flavors; }
   .dadas-selected-flavors__heading { margin-bottom: 5px; }
   .dadas-selected-flavors__heading .dadas-control-label { font-size: 6px; }
-  .dadas-selected-flavors__heading > strong { font-size: 10px; }
   .dadas-back-to-config { min-height: 21px; padding: 0 7px; font-size: 6.5px; }
   .dadas-selected-flavors__list { gap: 4px; }
-  .dadas-flavor-slot { min-height: 26px; max-width: 150px; }
+  .dadas-flavor-slot { min-height: 26px; }
+  .dadas-selected-flavors__total { margin-top: 5px; padding-top: 5px; }
+  .dadas-selected-flavors__total span { font-size: 6.5px; }
+  .dadas-selected-flavors__total strong { font-size: 11px; }
   .dadas-flavor-slot__number { width: 17px; height: 17px; font-size: 6px; }
   .dadas-flavor-slot__name { font-size: 7.5px; }
   .dadas-flavor-slot__remove { width: 15px; height: 15px; font-size: 11px; }
@@ -5764,6 +5786,7 @@ body.dadas-checkout-lock { overflow: hidden !important; }
     var configHelper = document.getElementById("dadas-config-helper");
     var selectedPrice = document.getElementById("dadas-selected-price");
     var backToConfigButton = document.getElementById("dadas-back-to-config");
+    var backToConfigLabel = document.getElementById("dadas-back-to-config-label");
 
     var fallbackFills = ["url(#dadasFallback0)", "url(#dadasFallback1)", "url(#dadasFallback2)"];
 
@@ -6251,6 +6274,7 @@ body.dadas-checkout-lock { overflow: hidden !important; }
         previewStatus.textContent = "Selecione tamanho e sabores";
         configHelper.textContent = "Comece escolhendo o tamanho.";
         selectedPrice.textContent = "R$ 0,00";
+        if (backToConfigLabel) backToConfigLabel.textContent = "Tamanho";
         return;
       }
 
@@ -6264,12 +6288,14 @@ body.dadas-checkout-lock { overflow: hidden !important; }
         previewSize.textContent = selectedSize.label;
         previewStatus.textContent = "Escolha a quantidade de sabores";
         configHelper.textContent = selectedSize.label + " permite de 1 até " + selectedSize.maxFlavors + (selectedSize.maxFlavors === 1 ? " sabor." : " sabores.");
+        if (backToConfigLabel) backToConfigLabel.textContent = "Tamanho";
         return;
       }
 
       counterElement.textContent = flavorCount + "/" + targetFlavorCount + (targetFlavorCount === 1 ? " sabor" : " sabores");
       configHelper.textContent = selectedSize.label + " com " + targetFlavorCount + (targetFlavorCount === 1 ? " sabor selecionado." : " sabores selecionados.");
       previewSize.textContent = selectedSize.label + " • " + targetFlavorCount + (targetFlavorCount === 1 ? " sabor" : " sabores");
+      if (backToConfigLabel) backToConfigLabel.textContent = selectedSize.label.toUpperCase();
 
       if (flavorCount === 0) {
         previewStatus.textContent = targetFlavorCount === 1 ? "Agora escolha seu sabor" : "Agora escolha os sabores";
