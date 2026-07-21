@@ -3210,6 +3210,29 @@
 </script>
 
 <!-- =========================================================
+     DADA'S • SUPABASE
+     Cardápio e pedidos vêm do projeto Supabase abaixo.
+========================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  window.DadasSupabaseConfig = Object.assign(
+    {
+      url: "https://hclkgdiwfmwyrzhuzfai.supabase.co",
+      key: "sb_publishable_wIcKOZg_qIWheDw4_o6P7w_5bIjoJ02"
+    },
+    window.DadasSupabaseConfig || {}
+  );
+
+  window.DadasSupabase = window.supabase
+    ? window.supabase.createClient(
+        window.DadasSupabaseConfig.url,
+        window.DadasSupabaseConfig.key
+      )
+    : null;
+</script>
+
+<!-- =========================================================
      DADA'S • CARDÁPIO + CARRINHO V7.9.1
 ========================================================= -->
 
@@ -4429,32 +4452,66 @@
     window.DadasPizzaConfig || {}
   );
 
-  var DADAS_PIZZAS = [
-    { "id": "pepperoni", "name": "Pepperoni", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/Fundo-de-057f1b6c-ec55-47d9-8275-cabf3479c3fe-Removido.png", "description": "Molho de tomate artesanal, mozzarella especial, generosas fatias de pepperoni e finalização com orégano.", "imageFit": "contain", "order": 1 },
-    { "id": "margherita", "name": "Margherita", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/Fundo-de-pizza-s2-Removido-e1784304115248.png", "description": "Mozzarella de búfala, molho de tomate artesanal, tomates frescos, manjericão e azeite extravirgem.", "imageFit": "cover", "order": 2 },
-    { "id": "quatro-queijos", "name": "Quatro Queijos", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/Fundo-de-pizza-s3-Removido.png", "description": "Mozzarella, provolone, gorgonzola e parmesão, combinados sobre nosso molho de tomate artesanal.", "imageFit": "cover", "order": 3 },
-    { "id": "calabresa", "name": "Calabresa", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/Fundo-de-057f1b6c-ec55-47d9-8275-cabf3479c3fe-Removido.png", "description": "Calabresa artesanal, cebola, mozzarella especial, molho de tomate e uma delicada finalização com orégano.", "imageFit": "cover", "order": 4 },
-    { "id": "frango-com-catupiry", "name": "Frango com Catupiry", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/pizza-s4.1-.png", "description": "Frango desfiado e temperado, Catupiry cremoso, mozzarella especial e finalização com orégano.", "imageFit": "cover", "order": 5 },
-    { "id": "portuguesa", "name": "Portuguesa", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/pizza-s6.png", "description": "Presunto, ovos, cebola, azeitonas, mozzarella, molho de tomate artesanal e orégano.", "imageFit": "cover", "order": 6 },
-    { "id": "napolitana", "name": "Napolitana", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/margue.jpg", "description": "Mozzarella, tomate fresco, parmesão, alho e manjericão.", "imageFit": "cover", "order": 7 },
-    { "id": "bacon-cheddar", "name": "Bacon & Cheddar", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/cala.jpg", "description": "Bacon crocante, cheddar cremoso, mozzarella e molho artesanal.", "imageFit": "cover", "order": 8 },
-    { "id": "toscana", "name": "Toscana", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/Fundo-de-057f1b6c-ec55-47d9-8275-cabf3479c3fe-Removido.png", "description": "Linguiça artesanal, mozzarella, cebola roxa e chimichurri.", "imageFit": "contain", "order": 9 },
-    { "id": "file-com-alho", "name": "Filé com Alho", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/margue.jpg", "description": "Filé em tiras, mozzarella, alho confitado e parmesão.", "imageFit": "cover", "order": 10 },
-    { "id": "costela-bbq", "name": "Costela BBQ", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/4queijos.jpg", "description": "Costela desfiada, barbecue da casa, mozzarella e cebola roxa.", "imageFit": "cover", "order": 11 },
-    { "id": "carbonara", "name": "Carbonara", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/cala.jpg", "description": "Bacon crocante, creme de parmesão, mozzarella e pimenta-do-reino.", "imageFit": "cover", "order": 12 },
-    { "id": "milho-bacon", "name": "Milho & Bacon", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/frango.jpg", "description": "Milho, bacon crocante, mozzarella e toque de requeijão.", "imageFit": "cover", "order": 13 },
-    { "id": "lombo-canadense", "name": "Lombo Canadense", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/portuguesa.jpg", "description": "Lombo canadense, mozzarella, cebola e azeitonas.", "imageFit": "cover", "order": 14 },
-    { "id": "vegetariana", "name": "Vegetariana", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/Fundo-de-057f1b6c-ec55-47d9-8275-cabf3479c3fe-Removido.png", "description": "Abobrinha, tomate, cebola roxa, pimentões e mozzarella.", "imageFit": "contain", "order": 15 },
-    { "id": "cinco-queijos", "name": "Cinco Queijos", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/margue.jpg", "description": "Mozzarella, provolone, parmesão, gorgonzola e catupiry.", "imageFit": "cover", "order": 16 },
-    { "id": "brocolis-bacon", "name": "Brócolis & Bacon", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/4queijos.jpg", "description": "Brócolis, bacon crocante, mozzarella e alho dourado.", "imageFit": "cover", "order": 17 },
-    { "id": "strogonoff-de-carne", "name": "Strogonoff de Carne", "category": "salgada", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/cala.jpg", "description": "Carne ao molho cremoso, mozzarella e batata palha.", "imageFit": "cover", "order": 18 },
-    { "id": "chocolate-morango", "name": "Chocolate & Morango", "category": "doce", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/pizza-d1.jpeg", "description": "Chocolate cremoso, morangos frescos e leite em pó.", "imageFit": "cover", "order": 19 },
-    { "id": "frutas-vermelhas", "name": "Frutas Vermelhas", "category": "doce", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/pizza-d5.jpg", "description": "Chocolate branco cremoso, frutas vermelhas e finalização delicada com leite em pó.", "imageFit": "cover", "order": 20 },
-    { "id": "romeu-julieta", "name": "Romeu & Julieta", "category": "doce", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/pizza-d3-e1784227867285.avif", "description": "Goiabada cremosa, queijo e toque delicado de canela.", "imageFit": "cover", "order": 21 },
-    { "id": "chocolate-branco-com-nozes", "name": "Chocolate Branco com Nozes", "category": "doce", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/pizza-d4.jpeg", "description": "Chocolate branco cremoso, nozes selecionadas e finalização delicada.", "imageFit": "cover", "order": 22 },
-    { "id": "banoffe", "name": "Banoffee", "category": "doce", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/pizza-d2-e1784227815651.jpg", "description": "Doce de leite cremoso, banana, canela e farofa amanteigada.", "imageFit": "cover", "order": 23 },
-    { "id": "prestigio", "name": "Prestígio", "category": "doce", "image": "https://ragnar-oak.shop/wp-content/uploads/2026/07/pizza-d6.jpg", "description": "Chocolate, coco cremoso e finalização com coco tostado.", "imageFit": "cover", "order": 24 }
-  ];
+  var DADAS_PIZZAS = [];
+
+  function mapSupabaseRow(row) {
+    return {
+      id: row.id,
+      name: row.nome,
+      category: row.categoria,
+      image: row.imagem_url,
+      description: row.descricao || "",
+      imageFit: row.imagem_ajuste || "cover",
+      order: row.ordem
+    };
+  }
+
+  function setGridMessage(text) {
+    var grid = document.getElementById("dadas-menu-grid");
+    if (!grid) return;
+
+    grid.dataset.rendered = "false";
+    grid.innerHTML =
+      '<p style="grid-column:1/-1;text-align:center;color:rgba(253,231,185,0.6);font-size:13px;padding:32px 12px;">' +
+      text +
+      "</p>";
+  }
+
+  async function loadCatalogFromSupabase() {
+    if (!window.DadasSupabase) {
+      setGridMessage(
+        "Configure o Supabase (window.DadasSupabaseConfig) para carregar o cardápio."
+      );
+      return;
+    }
+
+    setGridMessage("Carregando cardápio...");
+
+    var response = await window.DadasSupabase
+      .from("produtos")
+      .select("*")
+      .eq("ativo", true)
+      .order("ordem", { ascending: true });
+
+    if (response.error) {
+      if (window.console) {
+        console.error("Dada's • erro ao carregar cardápio do Supabase:", response.error);
+      }
+
+      setGridMessage(
+        "Não foi possível carregar o cardápio agora. Recarregue a página em instantes."
+      );
+
+      return;
+    }
+
+    DADAS_PIZZAS = (response.data || []).map(mapSupabaseRow);
+
+    var grid = document.getElementById("dadas-menu-grid");
+    if (grid) grid.dataset.rendered = "false";
+
+    renderCatalog();
+  }
 
   var CATEGORY_COPY = {
     salgada: { title: "Pizzas Salgadas", kicker: "", description: "", className: "" },
@@ -4650,9 +4707,9 @@
   };
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", renderCatalog, { once: true });
+    document.addEventListener("DOMContentLoaded", loadCatalogFromSupabase, { once: true });
   } else {
-    renderCatalog();
+    loadCatalogFromSupabase();
   }
 
   document.addEventListener("keydown", function (event) {
@@ -7591,6 +7648,83 @@ body.dadas-slim-details-lock { overflow: hidden !important; }
       return true;
     }
 
+    /*
+     * Registro do pedido no Supabase. Roda em paralelo ao envio do
+     * WhatsApp e nunca bloqueia nem interrompe esse fluxo — o WhatsApp
+     * é o caminho crítico; o Supabase é só o histórico interno.
+     */
+    async function saveOrderToSupabase() {
+      if (!window.DadasSupabase) return null;
+
+      var fulfillment = getFulfillmentValue();
+      var payment = getPaymentValue();
+      var enderecoTexto = null;
+
+      if (fulfillment === "Entrega") {
+        var street = normalizeText(addressStreetInput.value);
+        var number = normalizeText(addressNumberInput.value);
+        var neighborhood = normalizeText(addressNeighborhoodInput.value);
+        var complement = normalizeText(addressComplementInput.value);
+        var reference = normalizeText(addressReferenceInput.value);
+
+        enderecoTexto = street + ", " + number + " - " + neighborhood;
+        if (complement) enderecoTexto += " (" + complement + ")";
+        if (reference) enderecoTexto += " · Ref.: " + reference;
+      }
+
+      var trocoPara = null;
+      if (payment === "Dinheiro" && getChangeNeededValue() === "Sim") {
+        trocoPara = parseMoneyValue(changeValueInput.value);
+      }
+
+      /*
+       * O ID é gerado aqui (não pelo banco) porque o fluxo é de
+       * convidado, sem login — não dá pra ter uma política de SELECT
+       * segura em "pedidos" pra ler de volta o registro inserido, então
+       * inserimos com o ID já pronto e o usamos direto nos itens.
+       */
+      var pedidoId =
+        window.crypto && window.crypto.randomUUID
+          ? window.crypto.randomUUID()
+          : String(Date.now()) + "-" + Math.random().toString(16).slice(2);
+
+      var pedidoPayload = {
+        id: pedidoId,
+        cliente_nome: normalizeText(customerNameInput.value),
+        cliente_telefone: formatBrazilianPhone(customerPhoneInput.value),
+        tamanho: state.size,
+        quantidade_sabores: getSelectedFlavorCount(),
+        forma_recebimento: fulfillment,
+        endereco: enderecoTexto,
+        forma_pagamento: payment,
+        troco_para: trocoPara,
+        observacoes: normalizeText(orderNotesInput.value) || null,
+        total: getOrderTotal()
+      };
+
+      var pedidoResponse = await window.DadasSupabase.from("pedidos").insert(pedidoPayload);
+
+      if (pedidoResponse.error) {
+        throw pedidoResponse.error;
+      }
+
+      var itensPayload = state.flavors.map(function (flavor, index) {
+        return {
+          pedido_id: pedidoId,
+          produto_id: flavor.id,
+          posicao: index + 1
+        };
+      });
+
+      var itensResponse = await window.DadasSupabase.from("pedido_itens").insert(itensPayload);
+
+      if (itensResponse.error) {
+        throw itensResponse.error;
+      }
+
+      return pedidoId;
+    }
+
     function sendOrderToWhatsapp() {
       if (sendInProgress) return;
 
@@ -7610,6 +7744,12 @@ body.dadas-slim-details-lock { overflow: hidden !important; }
 
       clearCheckoutError();
       setSendLoading(true);
+
+      saveOrderToSupabase().catch(function (error) {
+        if (window.console) {
+          console.warn("Dada's • não foi possível registrar o pedido no Supabase.", error);
+        }
+      });
 
       lastWhatsappMessage = buildWhatsappMessage();
 
