@@ -5132,7 +5132,7 @@
 
   .dadas-cart-dock { padding: 5px 6px calc(5px + env(safe-area-inset-bottom)); }
   .dadas-cart-dock__shell {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-areas: "flavors visual" "actions actions";
     gap: 8px;
     padding: 8px 10px;
@@ -5143,7 +5143,7 @@
   .dadas-selected-flavors__heading .dadas-control-label { font-size: 6px; }
   .dadas-back-to-config { min-height: 21px; padding: 0 7px; font-size: 6.5px; }
   .dadas-selected-flavors__list { gap: 4px; }
-  .dadas-flavor-slot { min-height: 26px; width: 50%; }
+  .dadas-flavor-slot { min-height: 26px; width: 100%; }
   .dadas-selected-flavors__total { display: none; }
   .dadas-flavor-slot__number { width: 17px; height: 17px; font-size: 6px; }
   .dadas-flavor-slot__name { font-size: 7.5px; }
@@ -5151,10 +5151,11 @@
   .dadas-pizza-cart__visual {
     display: flex;
     grid-area: visual;
+    min-width: 0;
     padding: 0 0 0 10px;
     border-left: 1px solid rgba(255, 255, 255, 0.08);
   }
-  .dadas-pizza-svg { width: 62px; height: 62px; }
+  .dadas-pizza-svg { width: 108px; height: 108px; }
   #dadas-checkout-bar { grid-area: actions; }
   .dadas-cart-message { right: 9px; bottom: 9px; max-width: 230px; padding: 7px 9px; font-size: 7px; }
 }
